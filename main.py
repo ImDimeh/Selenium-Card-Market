@@ -2,8 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
+from rapidfuzz import process
 
 CarteRecherché = input("Quel carte voulez-vous ? ")
+RaretéRecherché = input("Quel rareté voulez-vous ? ")
 
 driver = webdriver.Chrome()
 driver.get('https://www.cardmarket.com/fr/YuGiOh')
@@ -40,10 +42,14 @@ ListeRareté = [
     'Quarter Century Secret Rare', 'Ultimate Rare', 'Ghost Rare', 'Starlight Rare',
     'Holographic Rare', 'Special', 'Token', 'Oversized', 'Unknown'
 ]
+Rareté = process.extractOne(RaretéRecherché,ListeRareté)[0]
+print("Raretés choisit :" , Rareté)
+select.select_by_visible_text(Rareté)
 
-print("Raretés disponibles dans le <select> :")
-for option in option_list:
-    print(f"- {option.text}")
+# cliquer sur le boutton TROUVER
+# 
+wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/main/section/div[1]/form/div/div[6]/input"))).click()
+
 
 # Garder le navigateur ouvert pour inspection
 input("Appuyez sur Entrée pour fermer le navigateur...")
